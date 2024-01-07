@@ -1,38 +1,281 @@
-include(CheckIncludeFile)
-include(CheckIncludeFiles)
-include(CheckSymbolExists)
-include(CheckPrototypeDefinition)
-include(CheckFunctionExists)
-include(CheckCXXSourceCompiles)
-include(CheckTypeSize)
-include(CheckLibraryExists)
-include(CheckCXXSourceRuns)
-include(CheckStructHasMember)
-include(CheckCSourceCompiles)
-include(CheckSourceRuns)
-include(TestBigEndian)
-
 macro(magick_check_env)
-  # Check if `closedir' function returns void instead of `int'
+  include(CheckCSourceCompiles)
+  include(CheckCSourceCompiles)
+  include(CheckCSourceRuns)
+  include(CheckFunctionExists)
+  include(CheckIncludeFile)
+  include(CheckIncludeFiles)
+  include(CheckLibraryExists)
+  include(CheckPrototypeDefinition)
+  include(CheckSourceRuns)
+  include(CheckStructHasMember)
+  include(CheckSymbolExists)
+  include(CheckTypeSize)
+  include(TestBigEndian)
+
+  if(BUILD_MAGICKPP)
+    include(CheckCXXSourceCompiles)
+    include(CheckCXXSourceRuns)
+  endif()
+
+  option(MSVC_SKIP_CHECKS "Skip trivial checks on MSVC" ON)
+  if(MSVC AND MSVC_SKIP_CHECKS)
+    # Skip most trivial checks on MSVC
+    set(__CHAR_UNSIGNED__ 1)
+    set(__EXTENSIONS__)
+    set(__func__)
+    set(_ALL_SOURCE)
+    set(_DARWIN_C_SOURCE)
+    set(_FILE_OFFSET_BITS 32)
+    set(_FORTIFY_SOURCE)
+    set(_GNU_SOURCE)
+    set(_HPUX_ALT_XOPEN_SOCKET_API)
+    set(_LARGE_FILES)
+    set(_LARGEFILE_SOURCE)
+    set(_MINIX)
+    set(_NETBSD_SOURCE)
+    set(_OPENBSD_SOURCE)
+    set(_POSIX_1_SOURCE)
+    set(_POSIX_PTHREAD_SEMANTICS)
+    set(_POSIX_SOURCE)
+    set(_TANDEM_SOURCE)
+    set(_UINT32_T)
+    set(_UINT64_T)
+    set(_UINT8_T)
+    set(_XOPEN_SOURCE)
+    set(HAVE___ATTRIBUTE__ 0)
+    set(HAVE__ALIGNED_MALLOC 0)
+    set(HAVE__BOOL 1)
+    set(HAVE__EXIT 1)
+    set(HAVE__NSGETEXECUTABLEPATH 0)
+    set(HAVE__PCLOSE 1)
+    set(HAVE__POPEN 1)
+    set(HAVE__WFOPEN 1)
+    set(HAVE__WSTAT 1)
+    set(HAVE_ACOSH 1)
+    set(HAVE_ALIGNED_MALLOC 0)
+    set(HAVE_ARM_LIMITS_H 0)
+    set(HAVE_ARPA_INET_H 0)
+    set(HAVE_ASINH 1)
+    set(HAVE_ATANH 1)
+    set(HAVE_ATEXIT 1)
+    set(HAVE_ATOLL 1)
+    set(HAVE_BOOL 1)
+    set(HAVE_CABS 1)
+    set(HAVE_CARG 1)
+    set(HAVE_CIMAG 1)
+    set(HAVE_CLOCK 1)
+    set(HAVE_CLOCK_GETRES 0)
+    set(HAVE_CLOCK_GETTIME 0)
+    set(HAVE_CLOCK_REALTIME 0)
+    set(HAVE_COMPLEX_H 1)
+    set(HAVE_CREAL 1)
+    set(HAVE_CTIME_R 0)
+    set(HAVE_DECL_PREAD 0)
+    set(HAVE_DECL_PWRITE 0)
+    set(HAVE_DECL_STRERROR_R 0)
+    set(HAVE_DECL_STRLCPY 0)
+    set(HAVE_DECL_TZNAME 0)
+    set(HAVE_DECL_VSNPRINTF 0)
+    set(HAVE_DIRECTIO 0)
+    set(HAVE_DIRENT_H 0)
+    set(HAVE_DLFCN_H 0)
+    set(HAVE_ERF 1)
+    set(HAVE_ERRNO_H 1)
+    set(HAVE_EXECVP 1)
+    set(HAVE_FCHMOD 0)
+    set(HAVE_FLOAT_H 1)
+    set(HAVE_FLOOR 1)
+    set(HAVE_FORK 0)
+    set(HAVE_FSEEKO 0)
+    set(HAVE_FTIME 1)
+    set(HAVE_FTRUNCATE 0)
+    set(HAVE_GETC_UNLOCKED 0)
+    set(HAVE_GETCWD 1)
+    set(HAVE_GETDTABLESIZE 0)
+    set(HAVE_GETENTROPY 0)
+    set(HAVE_GETEXECNAME 0)
+    set(HAVE_GETPAGESIZE 0)
+    set(HAVE_GETPID 1)
+    set(HAVE_GETPWNAM_R 0)
+    set(HAVE_GETRLIMIT 0)
+    set(HAVE_GETRUSAGE 0)
+    set(HAVE_GETTIMEOFDAY 0)
+    set(HAVE_GMTIME_R 0)
+    set(HAVE_HUGEPAGES 0)
+    set(HAVE_INTMAX_T 1)
+    set(HAVE_INTPTR_T 1)
+    set(HAVE_INTTYPES_H 1)
+    set(HAVE_ISNAN 1)
+    set(HAVE_J0 1)
+    set(HAVE_J1 1)
+    set(HAVE_LIBGCOV 0)
+    set(HAVE_LIMITS_H 1)
+    set(HAVE_LINUX_SENDFILE 0)
+    set(HAVE_LINUX_UNISTD_H 0)
+    set(HAVE_LLTOSTR 0)
+    set(HAVE_LOCALE_H 1)
+    set(HAVE_LOCALTIME_R 0)
+    set(HAVE_LONG_DOUBLE 1)
+    set(HAVE_LONG_DOUBLE_WIDER 0)
+    set(HAVE_LONG_LONG_INT 1)
+    set(HAVE_LSTAT 0)
+    set(HAVE_MACH_O_DYLD_H 0)
+    set(HAVE_MACHINE_PARAM_H 0)
+    set(HAVE_MALLOC_H 1)
+    set(HAVE_MBSTATE_T 1)
+    set(HAVE_MEMMOVE 1)
+    set(HAVE_MEMSET 1)
+    set(HAVE_MINIX_CONFIG_H 0)
+    set(HAVE_MKDIR 1)
+    set(HAVE_MKSTEMP 0)
+    set(HAVE_MMAP 0)
+    set(HAVE_NAMESPACE_STD 1)
+    set(HAVE_NAMESPACES 1)
+    set(HAVE_NANOSLEEP 0)
+    set(HAVE_NDIR_H 0)
+    set(HAVE_NETDB_H 0)
+    set(HAVE_NETINET_IN_H 0)
+    set(HAVE_NEWLOCALE 0)
+    set(HAVE_OS_H 0)
+    set(HAVE_PCLOSE 0)
+    set(HAVE_POLL 0)
+    set(HAVE_POPEN 0)
+    set(HAVE_POSIX_FADVISE 0)
+    set(HAVE_POSIX_FALLOCATE 0)
+    set(HAVE_POSIX_MADVISE 0)
+    set(HAVE_POSIX_MEMALIGN 0)
+    set(HAVE_POSIX_SPAWNP 0)
+    set(HAVE_POW 1)
+    set(HAVE_PREAD 0)
+    set(HAVE_PROCESS_H 1)
+    set(HAVE_PUTENV 1)
+    set(HAVE_PWRITE 0)
+    set(HAVE_QSORT_R 0)
+    set(HAVE_RAISE 1)
+    set(HAVE_RAND_R 0)
+    set(HAVE_READLINK 0)
+    set(HAVE_REALPATH 0)
+    set(HAVE_SEEKDIR 0)
+    set(HAVE_SELECT 0)
+    set(HAVE_SENDFILE 0)
+    set(HAVE_SETLOCALE 1)
+    set(HAVE_SETVBUF 1)
+    set(HAVE_SHARED_MEMORY 0)
+    set(HAVE_SIGACTION 0)
+    set(HAVE_SIGEMPTYSET 0)
+    set(HAVE_SOCKET 0)
+    set(HAVE_SPAWNVP 1)
+    set(HAVE_SQRT 1)
+    set(HAVE_STAT 1)
+    set(HAVE_STD_LIBS 1)
+    set(HAVE_STDARG_H 1)
+    set(HAVE_STDBOOL_H 1)
+    set(HAVE_STDDEF_H 1)
+    set(HAVE_STDINT_H 1)
+    set(HAVE_STDLIB_H 1)
+    set(HAVE_STRCASECMP 0)
+    set(HAVE_STRCASESTR 0)
+    set(HAVE_STRCHR 1)
+    set(HAVE_STRCSPN 1)
+    set(HAVE_STRDUP 1)
+    set(HAVE_STRERROR 1)
+    set(HAVE_STRERROR_R 0)
+    set(HAVE_STRING_H 1)
+    set(HAVE_STRINGIZE 1)
+    set(HAVE_STRINGS_H 0)
+    set(HAVE_STRLCAT 0)
+    set(HAVE_STRLCPY 0)
+    set(HAVE_STRNCASECMP 0)
+    set(HAVE_STRPBRK 1)
+    set(HAVE_STRRCHR 1)
+    set(HAVE_STRSPN 1)
+    set(HAVE_STRSTR 1)
+    set(HAVE_STRTOD 1)
+    set(HAVE_STRTOD_L 0)
+    set(HAVE_STRTOL 1)
+    set(HAVE_STRTOUL 1)
+    set(HAVE_STRUCT_TM_TM_ZONE 0)
+    set(HAVE_SUN_PREFETCH_H 0)
+    set(HAVE_SYMLINK 0)
+    set(HAVE_SYS_DIR_H 0)
+    set(HAVE_SYS_IPC_H 0)
+    set(HAVE_SYS_MMAN_H 0)
+    set(HAVE_SYS_NDIR_H 0)
+    set(HAVE_SYS_PARAM_H 0)
+    set(HAVE_SYS_RESOURCE_H 0)
+    set(HAVE_SYS_SENDFILE_H 0)
+    set(HAVE_SYS_SOCKET_H 0)
+    set(HAVE_SYS_STAT_H 1)
+    set(HAVE_SYS_SYSLIMITS_H 0)
+    set(HAVE_SYS_TIME_H 0)
+    set(HAVE_SYS_TIMES_H 0)
+    set(HAVE_SYS_TYPES_H 1)
+    set(HAVE_SYS_UIO_H 0)
+    set(HAVE_SYS_WAIT_H 0)
+    set(HAVE_SYSCONF 0)
+    set(HAVE_SYSTEM 1)
+    set(HAVE_TCMALLOC 0)
+    set(HAVE_TELLDIR 0)
+    set(HAVE_TEMPNAM 1)
+    set(HAVE_TIMES 0)
+    set(HAVE_TM_ZONE 0)
+    set(HAVE_TZNAME 0)
+    set(HAVE_UINTMAX_T 1)
+    set(HAVE_UINTPTR_T 1)
+    set(HAVE_ULLTOSTR 0)
+    set(HAVE_UNISTD_H 0)
+    set(HAVE_UNSIGNED_LONG_LONG_INT 1)
+    set(HAVE_USELOCALE 0)
+    set(HAVE_USLEEP 0)
+    set(HAVE_UTIME 1)
+    set(HAVE_UTIME_H 0)
+    set(HAVE_UTIMENSAT 0)
+    set(HAVE_VFPRINTF 1)
+    set(HAVE_VFPRINTF_L 0)
+    set(HAVE_VSNPRINTF 1)
+    set(HAVE_VSNPRINTF_L 0)
+    set(HAVE_VSPRINTF 1)
+    set(HAVE_WAITPID 0)
+    set(HAVE_WCHAR_H 1)
+    set(HAVE_WINDOWS_H 1)
+    set(HAVE_XLOCALE_H 0)
+    set(inline)
+    set(mbstate_t)
+    set(mode_t int)
+    set(off_t)
+    set(pid_t int)
+    set(SETJMP_IS_THREAD_SAFE 1)
+    set(size_t)
+    set(STAT_MACROS_BROKEN)
+    set(STDC_HEADERS 1)
+    set(STRERROR_R_CHAR_P)
+    set(TM_IN_SYS_TIME)
+    set(volatile)
+    set(X_DISPLAY_MISSING 1)
+  endif()
+
+    # libm is required for complex.h checks
+  check_library_exists(m pow "" LIBM)
+  if (LIBM)
+    set(CMAKE_REQUIRED_LIBRARIES m)
+    set(CMAKE_REQUIRED_LIBRARIES_SAVE ${CMAKE_REQUIRED_LIBRARIES})
+  endif()
+
+  # Check if `<dirent.h>' exists
   check_include_file(dirent.h HAVE_DIRENT_H)
-  if(HAVE_DIRENT_H)
-      unset(HAVE_DIRENT_H)
-      check_symbol_exists(DIR dirent.h HAVE_DIRENT_H)
-      if(NOT HAVE_DIRENT_H)
-          message(STATUS "--- DIR not defined...")
-      else(NOT HAVE_DIRENT_H)
-          check_prototype_definition(closedir "void closedir(DIR *dirp)" "NULL" "dirent.h" CLOSEDIR_VOID)
-      endif(NOT HAVE_DIRENT_H)
-  endif(HAVE_DIRENT_H)
 
   # Check if `acosh' exists
   check_function_exists(acosh HAVE_ACOSH)
+
+  # Check if `aligned_malloc' exists
+  check_function_exists(aligned_malloc HAVE_ALIGNED_MALLOC)
 
   # Check if <arm/limits.h> exists
   check_include_file(arm/limits.h HAVE_ARM_LIMITS_H)
 
   # Check if <arpa/inet.h> exists
-  check_include_file(arpa/inet.h HAVE_ARM_LIMITS_H)
+  check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
 
   # Check if `asinh' exists
   check_function_exists(asinh HAVE_ASINH)
@@ -46,17 +289,19 @@ macro(magick_check_env)
   # Check if `atoll' exists
   check_function_exists(atoll HAVE_ATOLL)
 
-  # Check if `bool' exists (check_type_size is not working at least on windows)
-  check_cxx_source_compiles ("void main () {bool b = false;}" HAVE_BOOL)
+  if(BUILD_MAGICKPP)
+    # Check if `bool' exists (check_type_size is not working at least on windows)
+    check_cxx_source_compiles ("int main () {bool b = false;}" HAVE_BOOL)
+  endif()
 
   # Check if `carg' exists
-  check_function_exists(carg HAVE_CARG)
+  check_symbol_exists(carg complex.h HAVE_CARG)
 
   # Check if `cabs' exists
-  check_function_exists(cabs HAVE_CABS)
+  check_symbol_exists(cabs complex.h HAVE_CABS)
 
   # Check if `cimag' exists
-  check_function_exists(cimag HAVE_CIMAG)
+  check_symbol_exists(cimag complex.h HAVE_CIMAG)
 
   # Check if `clock' exists
   check_function_exists(clock HAVE_CLOCK)
@@ -74,13 +319,26 @@ macro(magick_check_env)
   check_include_file(complex.h HAVE_COMPLEX_H)
 
   # Check if `creal' exists
-  check_function_exists(creal HAVE_CREAL)
+  check_symbol_exists(creal complex.h HAVE_CREAL)
 
   # Check if `ctime_r' exists
   check_function_exists(ctime_r HAVE_CTIME_R)
 
   # Check if `pread' exists
   check_function_exists(pread HAVE_DECL_PREAD)
+
+  # Check if `PTHREAD_PRIO_INHERIT` exists
+  set(CMAKE_REQUIRED_LIBRARIES pthread)
+  check_c_source_compiles("
+      #include <pthread.h>
+      int main() {
+          int i = PTHREAD_PRIO_INHERIT;
+      }
+  " HAVE_PTHREAD_PRIO_INHERIT)
+  set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES_SAVE})
+
+  # Check if `putenv' exists
+  check_function_exists(putenv HAVE_PUTENV)
 
   # Check if `pwrite' exists
   check_function_exists(pwrite HAVE_DECL_PWRITE)
@@ -100,19 +358,25 @@ macro(magick_check_env)
   # Check if <dlfcn.h> exists
   check_include_file(dlfcn.h HAVE_DLFCN_H)
 
-  # Check if `double_t' exists
-  check_cxx_source_compiles (
+  # Check if `float_t' exists
+  check_c_source_compiles (
   "
     #include <math.h>
-    void main () {double_t d = 0;}
-  " 
+    int main () {float_t f = 0;}
+  "
+  HAVE_FLOAT_T)
+
+  # Check if `double_t' exists
+  check_c_source_compiles (
+  "
+    #include <math.h>
+    int main () {double_t d = 0;}
+  "
   HAVE_DOUBLE_T)
 
   # Check if `erf' exists
   # Only check if not windows since <nt-base.h> explicit defines the macro and it will cause a lot of warnings
-  if(NOT WINDOWS)
-    check_function_exists(erf HAVE_ERF)
-  endif()
+  check_function_exists(erf HAVE_ERF)
 
   # Check if <errno.h> exists
   check_include_file(errno.h HAVE_ERRNO_H)
@@ -126,13 +390,8 @@ macro(magick_check_env)
   # Check if <fcntl.h> exists
   check_include_file(fcntl.h HAVE_FCNTL_H)
 
-  # Check if `float_t' exists
-  check_cxx_source_compiles (
-  "
-    #include <math.h> 
-    void main () {float_t f = 0;}
-  " 
-  HAVE_FLOAT_T)
+  # Check if <float.h> exists
+  check_include_file(float.h HAVE_FLOAT_H)
 
   # Check if `floor' exists
   check_function_exists(floor HAVE_FLOOR)
@@ -152,6 +411,9 @@ macro(magick_check_env)
   # Check if `getcwd' exists
   check_function_exists(getcwd HAVE_GETCWD)
 
+  # Check if `getentropy' exists
+  check_function_exists(getentropy HAVE_GETENTROPY)
+
   # Check if `getc_unlocked' exists
   check_function_exists(getc_unlocked HAVE_GETC_UNLOCKED)
 
@@ -167,6 +429,9 @@ macro(magick_check_env)
   # Check if `getpid' exists
   check_function_exists(getpid HAVE_GETPID)
 
+  # Check if `getpwnam_r' exists
+  check_function_exists(getpwnam_r HAVE_GETPWNAM_R)
+
   # Check if `getrlimit' exists
   check_function_exists(getrlimit HAVE_GETRLIMIT)
 
@@ -177,7 +442,7 @@ macro(magick_check_env)
   check_function_exists(gettimeofday HAVE_GETTIMEOFDAY)
 
   # Check if `gmtime_r' exists
-  check_function_exists(gettimeofday HAVE_GMTIME_R)
+  check_function_exists(gmtime_r HAVE_GMTIME_R)
 
   # I don't think our program will have a big memory impact
   set(HAVE_HUGEPAGES FALSE)
@@ -198,7 +463,7 @@ macro(magick_check_env)
   check_include_file(inttypes.h HAVE_INTTYPES_H)
 
   # Check if `isnan' exists
-  check_function_exists(isnan HAVE_ISNAN)
+  check_symbol_exists(isnan math.h float.h HAVE_ISNAN)
 
   # Check if `j0' exists
   check_function_exists(j0 HAVE_J0)
@@ -212,6 +477,18 @@ macro(magick_check_env)
   # Check if <limits.h> exists
   check_include_file(limits.h HAVE_LIMITS_H)
 
+  # Check if you have Linux-compatible sendfile()
+  check_c_source_compiles( "
+      #undef _FILE_OFFSET_BITS
+      #include <sys/types.h>
+      #include <sys/socket.h>
+      #include <sys/sendfile.h>
+      int main() {
+          sendfile(0, 0, (void *) 0, 0);
+      }"
+    HAVE_LINUX_SENDFILE)
+
+
   # Check if <linux/unistd.h> exists
   check_include_file(linux/unistd.h HAVE_LINUX_UNISTD_H)
 
@@ -220,12 +497,6 @@ macro(magick_check_env)
 
   # Check if <locale.h> exists
   check_include_file(locale.h HAVE_LOCALE_H)
-
-  # Check if `locale_t' exists
-  check_type_size(locale_t LOCALE_T)
-  if(HAVE_LOCALE_T ) # it was TRUE and we need it to be 1
-    set(HAVE_LOCALE_T 1)
-  endif()
 
   # Check if `localtime_r' exists
   check_function_exists(localtime_r HAVE_LOCALTIME_R)
@@ -239,7 +510,7 @@ macro(magick_check_env)
   # Check if `long double' have more precision than `double'
   if(HAVE_LONG_DOUBLE)
     check_type_size(double DOUBLE)
-    if(${LONG_DOUBLE} GREATER ${DOUBLE})
+    if(LONG_DOUBLE GREATER DOUBLE)
       set(HAVE_LONG_DOUBLE_WIDER 1)
     endif()
   endif()
@@ -250,23 +521,39 @@ macro(magick_check_env)
     set(HAVE_LONG_LONG_INT 1)
   endif()
 
+  # Check if `lstat' exists
+  check_function_exists(lstat HAVE_LSTAT)
+
   # Check if <machine/param.h> exists
   check_include_file(machine/param.h HAVE_MACHINE_PARAM_H)
 
   # Check if <mach-o/dyld.h.h> exists
   check_include_file(mach-o/dyld.h HAVE_MACH_O_DYLD_H)
 
+  # Check if <malloc.h> exists
+  check_include_file(malloc.h HAVE_MALLOC_H)
+
   # Check if `mbstate_t' exists in <wchar.h>
-  check_symbol_exists(mbstate_t wchar.h HAVE_MBSTATE_T)
+  set(CMAKE_EXTRA_INCLUDE_FILES wchar.h)
+  check_type_size(mbstate_t SIZEOF_MBSTATE_T LANGUAGE C)
+  set(CMAKE_EXTRA_INCLUDE_FILES)
+  if(SIZEOF_MBSTATE_T)
+    set(HAVE_MBSTATE_T 1)
+  else()
+    set(mbstate_t int)
+  endif()
 
   # Check if `memmove' exists
   check_function_exists(memmove HAVE_MEMMOVE)
 
-  # Check if <memory.h> exists
-  check_include_file(memory.h HAVE_MEMORY_H)
-
   # Check if `memset' exists
   check_function_exists(memset HAVE_MEMSET)
+
+  # Check if <minix/config.h> exists
+  check_include_file(minix/config.h HAVE_MINIX_CONFIG_H)
+
+  # Check if `mkdir' exists
+  check_function_exists(mkdir HAVE_MKDIR)
 
   # Check if `mkstemp' exists
   check_function_exists(mkstemp HAVE_MKSTEMP)
@@ -277,16 +564,18 @@ macro(magick_check_env)
   # Check if `munmap' exists
   check_function_exists(munmap HAVE_MUNMAP)
 
-  # Check if `namespace' exists
-  check_cxx_source_compiles ("namespace test {} void main() {using namespace ::test;}" HAVE_NAMESPACES)
+  if(BUILD_MAGICKPP)
+    # Check if `namespace' exists
+    check_cxx_source_compiles ("namespace test {} int main() {using namespace ::test;}" HAVE_NAMESPACES)
 
-  # Check if `std::' exists
-  check_cxx_source_compiles (
-  "
-    #include <iostream> 
-    void main() {std::istream& is = std::cin;}
-  "
-  HAVE_NAMESPACE_STD)
+    # Check if `std::' exists
+    check_cxx_source_compiles (
+    "
+      #include <iostream>
+      int main() {std::istream& is = std::cin;}
+    "
+    HAVE_NAMESPACE_STD)
+  endif()
 
   # Check if `nanosleep' exists
   check_function_exists(nanosleep HAVE_NANOSLEEP)
@@ -369,7 +658,7 @@ macro(magick_check_env)
   # Check if `setvbuf' exists
   check_function_exists(setvbuf HAVE_SETVBUF)
 
-  # Check supported X11 extensions  
+  # Check supported X11 extensions
   find_package(X11)
   if(X11_Xshape_FOUND)
     set(HAVE_SHAPE 1)
@@ -396,16 +685,21 @@ macro(magick_check_env)
   # Check if `stat' exists
   check_function_exists(stat HAVE_STAT)
 
-  # Check if `stdarg' exists
-  check_function_exists(stdarg HAVE_STDARG_H)
+  # Check if `<stdarg.h>' exists
+  check_include_file(stdarg.h HAVE_STDARG_H)
 
-  # Check if <stdbool.h> exists and conforms to C99
-  check_cxx_source_compiles (
-  "
-    #include <stdbool.h> 
-    void main() {bool b = __bool_true_false_are_defined;}
-  "
-  HAVE_STDBOOL_H)
+  if(BUILD_MAGICKPP)
+    # Check if <stdbool.h> exists and conforms to C99
+    check_cxx_source_compiles (
+    "
+      #include <stdbool.h>
+      int main() {bool b = __bool_true_false_are_defined;}
+    "
+    HAVE_STDBOOL_H)
+  endif()
+
+  # Check if <stddef.h> exists
+  check_include_file(stddef.h HAVE_STDDEF_H)
 
   # Check if <stdint.h> exists
   check_include_file(stdint.h HAVE_STDINT_H)
@@ -413,27 +707,32 @@ macro(magick_check_env)
   # Check if <stdlib.h> exists
   check_include_file(stdlib.h HAVE_STDLIB_H)
 
-  # Check if compiler supports ISO C++ standard library
-  set(CMAKE_REQUIRED_DEFINITIONS_SAVE ${CMAKE_REQUIRED_DEFINITIONS})
-  if(HAVE_NAMESPACES)
-    set(CMAKE_REQUIRED_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS} -DHAVE_NAMESPACES)
+  if(BUILD_MAGICKPP)
+    # Check if compiler supports ISO C++ standard library
+    set(CMAKE_REQUIRED_DEFINITIONS_SAVE ${CMAKE_REQUIRED_DEFINITIONS})
+    if(HAVE_NAMESPACES)
+      set(CMAKE_REQUIRED_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS} -DHAVE_NAMESPACES)
+    endif()
+    check_cxx_source_compiles (
+    "
+      #include <map>
+      #include <iomanip>
+      #include <cmath>
+      #ifdef HAVE_NAMESPACES
+        using namespace std;
+      #endif
+
+      int main() {}
+    "
+    HAVE_STD_LIBS)
+    set(CMAKE_REQUIRED_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS_SAVE})
   endif()
-  check_cxx_source_compiles (
-  "
-    #include <map>
-    #include <iomanip>
-    #include <cmath>
-    #ifdef HAVE_NAMESPACES
-      using namespace std;
-    #endif
-    
-    void main() {}
-  "
-  HAVE_STD_LIBS)
-  set(CMAKE_REQUIRED_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS_SAVE})
 
   # Check if `strcasecmp' exists
   check_function_exists(strcasecmp HAVE_STRCASECMP)
+
+  # Check if `strcasestr' exists
+  check_function_exists(strcasestr HAVE_STRCASESTR)
 
   # Check if `strchr' exists
   check_function_exists(strchr HAVE_STRCHR)
@@ -453,7 +752,7 @@ macro(magick_check_env)
   # Check if `#' stringizing operator is supported
   set(HAVE_STRINGIZE_EXITCODE 1)
   set(HAVE_STRINGIZE_EXITCODE__TRYRUN_OUTPUT 1)
-  check_cxx_source_runs(
+  check_c_source_runs(
   "
     #define x(y) #y
     int main() { char c[] = \"c\"; char* p = x(c); return (c[0] != p[0]) || (c[1] != p[1]); }
@@ -488,7 +787,7 @@ macro(magick_check_env)
   check_function_exists(strstr HAVE_STRSTR)
 
   # Check if `strtod' exists
-  check_function_exists(strtod HAVE_STRSTR)
+  check_function_exists(strtod HAVE_STRTOD)
 
   # Check if `strtod_l' exists
   check_function_exists(strtod_l HAVE_STRTOD_L)
@@ -511,6 +810,9 @@ macro(magick_check_env)
   # Check if `sysconf' exists
   check_function_exists(sysconf HAVE_SYSCONF)
 
+  # Check if `system' exists
+  check_function_exists(system HAVE_SYSTEM)
+
   # Check if <sys/dir.h> exists and defines `DIR'
   check_symbol_exists(DIR sys/dir.h HAVE_SYS_DIR_H)
 
@@ -523,14 +825,14 @@ macro(magick_check_env)
   # Check if <sys/ndir.h> exists and defines `DIR'
   check_symbol_exists(DIR sys/ndir.h HAVE_SYS_NDIR_H)
 
+  # Check if <netdb.h> exists
+  check_include_file(netdb.h HAVE_NETDB_H)
+
   # Check if <sys/param.h> exists
   check_include_file(sys/param.h HAVE_SYS_PARAM_H)
 
   # Check if <sys/resource.h> exists
   check_include_file(sys/resource.h HAVE_SYS_RESOURCE_H)
-
-  # Check if <sys/select.h> exists
-  check_include_file(sys/select.h HAVE_SYS_SELECT_H)
 
   # Check if <sys/sendfile.h> exists
   check_include_file(sys/sendfile.h HAVE_SYS_SENDFILE_H)
@@ -544,9 +846,6 @@ macro(magick_check_env)
   # Check if <sys/syslimits.h> exists
   check_include_file(sys/syslimits.h HAVE_SYS_SYSLIMITS_H)
 
-  # Check if <sys/timeb.h> exists
-  check_include_file(sys/timeb.h HAVE_SYS_TIMEB_H)
-
   # Check if <sys/times.h> exists
   check_include_file(sys/times.h HAVE_SYS_TIMES_H)
 
@@ -555,6 +854,9 @@ macro(magick_check_env)
 
   # Check if <sys/types.h> exists
   check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+
+  # Check if <sys/uio.h> exists
+  check_include_file(sys/uio.h HAVE_SYS_UIO_H)
 
   # Check if <sys/wait.h> exists
   check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
@@ -609,27 +911,17 @@ macro(magick_check_env)
   # Check if `utime' exists
   check_function_exists(utime HAVE_UTIME)
 
+  # Check if `utimensat' exists
+  check_function_exists(utimensat HAVE_UTIMENSAT)
+
   # Check if <utime.h> exists
   check_include_file(utime.h HAVE_UTIME_H)
-
-  # Check if `vfork' exists
-  check_function_exists(vfork HAVE_VFORK)
-
-  # Check if <vfork.h> exists
-  check_include_file(vfork.h HAVE_VFORK_H)
 
   # Check if `vfprintf' exists
   check_symbol_exists(vfprintf stdio.h HAVE_VFPRINTF)
 
   # Check if `vfprintf_l' exists
   check_symbol_exists(vfprintf_l stdio.h HAVE_VFPRINTF_L)
-
-  # Check if `vprintf' exists
-  check_symbol_exists(vprintf stdio.h HAVE_VPRINTF)
-  # Check if `_doprnt' exists only if `vprintf' do not exists
-  if(NOT HAVE_VPRINTF)
-    check_function_exists(_doprnt HAVE_DOPRNT)
-  endif()
 
   # Check if `vsnprintf' exists
   check_symbol_exists(vsnprintf stdio.h HAVE_VSNPRINTF)
@@ -650,48 +942,8 @@ macro(magick_check_env)
   # Check if <windows.h> exists
   check_include_file(windows.h HAVE_WINDOWS_H)
 
-  # Check if `fork' works
-  if(HAVE_FORK)
-    set(HAVE_WORKING_FORK_EXITCODE 1)
-    set(HAVE_WORKING_FORK_EXITCODE__TRYRUN_OUTPUT 1)
-    check_cxx_source_runs(
-    "
-      #ifdef HAVE_SYS_TYPES_H
-      #include <sys/types.h>
-    #endif
-    #ifdef HAVE_UNISTD_H
-      #include <unistd.h>
-    #endif
-      int main() { if (fork() < 0) return(1); return(0); }
-    "
-    HAVE_WORKING_FORK)
-  endif()
-
-  # Check if `vfork' works
-  if(HAVE_VFORK)
-    set(HAVE_WORKING_VFORK_EXITCODE 1)
-    set(HAVE_WORKING_VFORK_EXITCODE__TRYRUN_OUTPUT 1)
-    check_cxx_source_runs(
-    "
-      #ifdef HAVE_SYS_TYPES_H
-      #include <sys/types.h>
-    #endif
-    #ifdef HAVE_UNISTD_H
-      #include <unistd.h>
-    #endif
-    #ifdef HAVE_VFORK_H
-      #include <vfork.h>
-    #endif
-      int main() { if (vfork() < 0) return(1); return(0); }
-    "
-    HAVE_WORKING_VFORK)
-  endif()
-
   # Check if <xlocale.h> exists
   check_include_file(xlocale.h HAVE_XLOCALE_H)
-
-  # Check if `_aligned_malloc' exists
-  check_function_exists(_aligned_malloc HAVE__ALIGNED_MALLOC)
 
   # Check if `_Bool' exists
   check_type_size(_Bool _BOOL)
@@ -722,35 +974,9 @@ macro(magick_check_env)
   "
     #include <stdlib.h>
     static void foo(void) __attribute__ ((unused));
-    void main() { }
+    int main() { }
   "
   HAVE___ATTRIBUTE__)
-
-  # Check return type of signal handlers
-  check_c_source_compiles(
-  "
-    #include <signal.h>
-    #ifdef signal
-      #undef signal
-    #endif
-    #ifdef __cplusplus
-    extern \"C\" void (*signal (int, void (*)(int)))(int);
-    #else
-    void (*signal ()) ();
-    #endif
-    void main() {}
-  "
-  SIGNAL_RETURN_TYPE_IS_VOID)
-  if(SIGNAL_RETURN_TYPE_IS_VOID)
-    set(RETSIGTYPE void)
-  else(SIGNAL_RETURN_TYPE_IS_VOID)
-    set(RETSIGTYPE int)
-  endif(SIGNAL_RETURN_TYPE_IS_VOID)
-
-  #TODO These seems to be obsolet but should we check them ????
-  set(SELECT_TYPE_ARG1 "")
-  set(SELECT_TYPE_ARG234 "")
-  set(SELECT_TYPE_ARG5 "")
 
   # Check `double' size
   check_type_size(double SIZEOF_DOUBLE)
@@ -819,32 +1045,22 @@ macro(magick_check_env)
   check_type_size("unsigned short" SIZEOF_UNSIGNED_SHORT)
 
   # TODO Not sure how to heck if the `S_IS*' macros in <sys/stat.h> are broken
-  # Should we test them all ???? 
+  # Should we test them all ????
   set(STAT_MACROS_BROKEN 0)
 
   # Check ANSI C header files exists
   check_include_fileS("stdlib.h;stdarg.h;string.h;float.h" STDC_HEADERS)
 
   # Check strerror_r returns `char *'
-  check_cxx_source_compiles(
+  check_c_source_compiles(
   "
-    void main() 
-    {
-      char buf[100];
-      char x = *strerror_r(0, buf, sizeof buf);
-      char *p = strerror_r(0, buf, sizeof buf);
+    #include <string.h>
+    int main() {
+        char buf[100];
+        const char* c = strerror_r(0, buf, 100);
     }
   "
   STRERROR_R_CHAR_P)
-
-  # Check if we can safely include both <sys/time.h> and <time.h>
-  check_cxx_source_compiles(
-  "
-    #include <sys/time.h>
-    #include <time.h>
-    void main(void){}
-  "
-  TIME_WITH_SYS_TIME)
 
   # Check if `struct tm' exists in <sys/time.h>
   if(HAVE_SYS_TIME_H)
@@ -855,20 +1071,17 @@ macro(magick_check_env)
   check_symbol_exists(__GNU_LIBRARY__ features.h _GNU_SOURCE)
 
   # Check if system is Big Endian
-  TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
+  test_big_endian(WORDS_BIGENDIAN)
 
   # Check if we are on MINIX
   check_symbol_exists(_MINIX "stdio.h" EVENT___MINIX)
 
   # Check if system does not provide POSIX.1 features except with this defined
-  #TODO does this suffice ????
-  check_symbol_exists(_POSIX_1_SOURCE "stdio.h" EVENT___POSIX_1_SOURCE)
-  if(NOT _POSIX_1_SOURCE)
-    set(_POSIX_1_SOURCE 2)
+  if(HAVE_MINIX_CONFIG_H)
+    set(_MINIX ON)
+    set(_POSIX_1_SOURCE ON)
+    set(_POSIX_SOURCE ON)
   endif()
-
-  # TODO Is this true or should it be 1 when not found???
-  check_symbol_exists(_POSIX_SOURCE "stdio.h" EVENT___POSIX_SOURCE)
 
   if(NOT CMAKE_COMPILER_IS_GNUCC)
     set(__CHAR_UNSIGNED___EXITCODE 1)
@@ -882,19 +1095,18 @@ macro(magick_check_env)
   endif()
 
   # Check for compiler `__func__' compatibility
-  check_c_source_compiles("void main() {char *function_name = __func__;}" HAVE___FUNC__)
-  check_c_source_compiles("void main() {char *function_name = __FUNCTION__;}" HAVE___FUNCTION__)
-
+  check_c_source_compiles("int main() {char *function_name = __func__;}" HAVE___FUNC__)
+  check_c_source_compiles("int main() {char *function_name = __FUNCTION__;}" HAVE___FUNCTION__)
   if(HAVE___FUNC__)
-    set(__func__ __func__)
-  elseif(HAVE___FUNCTION__) 
+    set(__func__)
+  elseif(HAVE___FUNCTION__)
     set(__func__ __FUNCTION__)
   else()
-    set(__func__ "")
+    set(__func__ __FILE__)
   endif()
 
-  # Check if `const' is supported by compiler 
-  check_c_source_compiles("void main() {const char *s = \"Test\";}" HAVE_CONST)
+  # Check if `const' is supported by compiler
+  check_c_source_compiles("int main() {const char *s = \"Test\";}" HAVE_CONST)
   # Only set const to empty if it doesn't exist otherwise magick++ will not compile
   if(NOT HAVE_CONST)
     set(const " ")
@@ -912,23 +1124,21 @@ macro(magick_check_env)
   check_c_source_compiles(
     "static inline int test (void) {return 0;}\nint main (void) {return test();}"
     HAVE_INLINE)
-
   check_c_source_compiles (
     "static __inline int test (void) {return 0;}\nint main (void) {return test();}"
     HAVE___INLINE)
-
   check_c_source_compiles (
     "static __inline__ int test (void) {return 0;}\nint main (void) {return test();}"
     HAVE___INLINE__)
 
   if(HAVE_INLINE)
-    set(inline inline)
+    set(inline)
   elseif(HAVE___INLINE)
     set(inline __inline)
   elseif(HAVE___INLINE__)
     set(inline __inline__)
   else()
-    set(inline "")
+    set(inline " ")
   endif()
 
   #TODO these defines if system doesn't define them
@@ -938,7 +1148,6 @@ macro(magick_check_env)
   set(int8_t "")
   set(intmax_t "")
   set(intptr_t "")
-  set(mbstate_t "")
 
   # Check if <sys/types.h> doesn't define `mode_t'
   if(HAVE_SYS_TYPES_H)
@@ -1021,22 +1230,15 @@ macro(magick_check_env)
   set(uintmax_t "")
   set(uintptr_t "")
 
-  # Check if `vfork' is not working and define it as `fork'
-  if(NOT HAVE_WORKING_VFORK)
-    set(vfork fork)
-  endif()
-
   # Check if `volatile' works
-  check_cxx_source_compiles(
+  check_c_source_compiles(
   "
-  void main() { volatile int i = 1; }
+  int main() { volatile int i = 1; }
   "
   HAVE_VOLATILE)
 
-  if(HAVE_VOLATILE)
-    set(volatile volatile)
-  else()
-    set(volatile "")
+  if(NOT HAVE_VOLATILE)
+    set(volatile " ")
   endif()
 
   #TODO check if this is actually true

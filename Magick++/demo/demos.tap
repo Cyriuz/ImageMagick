@@ -10,7 +10,7 @@
 # for usage and copying restrictions.
 #
 subdir=Magick++/demo
-. ./common.shi
+# . ./common.shi
 echo "1..24"
 
 SRCDIR=${top_srcdir}/${subdir}/
@@ -18,15 +18,15 @@ export SRCDIR
 
 cd ${subdir} || exit 1
 
-./analyze "$SRCDIR/model.miff" && echo "ok" || echo "not ok"
+${MAGICPP_DEMO_BINARIES_DIR:-.}/analyze "$SRCDIR/model.miff" && echo "ok" || echo "not ok"
 
 for demo in button demo flip gravity piddle shapes
 do
-  ./${demo} && echo "ok" || echo "not ok"
+  ${MAGICPP_DEMO_BINARIES_DIR:-.}/${demo} && echo "ok" || echo "not ok"
 done
 
 for filter in bessel blackman box catrom cubic gaussian hamming hanning hermite lanczos mitchell point quadratic sample scale sinc triangle
 do
-  ./zoom -filter $filter -geometry 600x600 ${SRCDIR}/model.miff  zoom_${filter}_out.miff && echo "ok" || echo "not ok"
+  ${MAGICPP_DEMO_BINARIES_DIR:-.}/zoom -filter $filter -geometry 600x600 ${SRCDIR}/model.miff  zoom_${filter}_out.miff && echo "ok" || echo "not ok"
 done
 :

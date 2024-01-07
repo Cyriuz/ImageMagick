@@ -43,6 +43,7 @@
 #include "MagickCore/studio.h"
 #include "MagickCore/artifact.h"
 #include "MagickCore/cache.h"
+#include "MagickCore/channel.h"
 #include "MagickCore/color.h"
 #include "MagickCore/compare.h"
 #include "MagickCore/constitute.h"
@@ -112,6 +113,7 @@ static const OptionInfo
     { "Disassociate", DisassociateAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Extract", ExtractAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Off", OffAlphaChannel, UndefinedOptionFlag, MagickFalse },
+    { "OffIfOpaque", OffIfOpaqueAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "On", OnAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Opaque", OpaqueAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Remove", RemoveAlphaChannel, UndefinedOptionFlag, MagickFalse },

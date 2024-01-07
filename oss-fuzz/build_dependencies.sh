@@ -7,6 +7,13 @@ make -j$(nproc) CFLAGS="$CFLAGS -fPIC"
 make install
 popd
 
+# build deflate
+pushd "$SRC/libdeflate"
+cmake .  -DCMAKE_INSTALL_PREFIX=$WORK -DLIBDEFLATE_BUILD_SHARED_LIB=off -DLIBDEFLATE_BUILD_GZIP=off
+make -j$(nproc)
+make install
+popd
+
 # Build xz
 pushd "$SRC/xz"
 ./autogen.sh --no-po4a --no-doxygen
@@ -32,7 +39,7 @@ popd
 # Build libtiff
 pushd "$SRC/libtiff"
 autoreconf -fiv
-./configure --disable-shared --prefix="$WORK"
+./configure --disable-shared --prefix="$WORK" CFLAGS="$CFLAGS -I$WORK/include" LIBS="-L$WORK/lib"
 make -j$(nproc)
 make install
 popd
@@ -93,9 +100,7 @@ popd
 
 # Build libjxl
 pushd "$SRC/libjxl"
-cmake . -DCMAKE_INSTALL_PREFIX=$WORK -DBUILD_TESTING=off -DBUILD_SHARED_LIBS=false -DJPEGXL_FORCE_SYSTEM_LCMS2=true -DJPEGXL_ENABLE_EXAMPLES=false -DJPEGXL_ENABLE_FUZZERS=false -DJPEGXL_ENABLE_TOOLS=false -DJPEGXL_ENABLE_JPEGLI=false -DCMAKE_C_FLAGS="$CFLAGS" -DCMAKE_CXX_FLAGS="$CXXFLAGS"
+cmake . -DCMAKE_INSTALL_PREFIX=$WORK -DBUILD_SHARED_LIBS=off -DBUILD_TESTING=false  -DJPEGXL_ENABLE_TOOLS=false -DJPEGXL_ENABLE_SKCMS=false -DJPEGXL_ENABLE_DOXYGEN=false -DJPEGXL_ENABLE_MANPAGES=false -DJPEGXL_ENABLE_SJPEG=false -DJPEGXL_ENABLE_EXAMPLES=false -DJPEGXL_ENABLE_BENCHMARK=false -DJPEGXL_ENABLE_FUZZERS=false -DJPEGXL_BUNDLE_LIBPNG=false -DJPEGXL_ENABLE_JPEGLI_LIBJPEG=false -DCMAKE_C_FLAGS="$CFLAGS" -DCMAKE_CXX_FLAGS="$CXXFLAGS"
 make -j$(nproc)
 make install
-cp third_party/brotli/*.a $WORK/lib
-cp third_party/brotli/*.pc $WORK/lib/pkgconfig
 popd

@@ -7,7 +7,7 @@
 # for usage and copying restrictions.
 #
 subdir=Magick++/tests
-. ./common.shi
+# . ./common.shi
 echo "1..13"
 
 SRCDIR=${top_srcdir}/${subdir}/
@@ -17,6 +17,6 @@ cd ${subdir} || exit 1
 
 for mytest in appendImages attributes averageImages coalesceImages coderInfo color colorHistogram exceptions geometry montageImages morphImages readWriteBlob readWriteImages
 do
-  ./${mytest} && echo "ok" || echo "not ok"
+  ${MAGICPP_TEST_BINARIES_DIR:-.}/${mytest} && echo "ok" || echo "not ok"
 done
 :

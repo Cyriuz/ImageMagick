@@ -7,8 +7,8 @@
 #
 #  Test for '${CONVERT}' utility.
 #
-. ./common.shi
-. ${srcdir}/tests/common.shi
+# . ./common.shi
+# . ${srcdir}/tests/common.shi
 echo "1..1"
 
 ${WANDTEST} wandtest_out.miff -validate compare && echo "ok" || echo "not ok"

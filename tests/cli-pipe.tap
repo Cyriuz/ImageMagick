@@ -16,8 +16,8 @@
 #
 #  Test for 'validate' utility.
 #
-. ./common.shi
-. ${srcdir}/tests/common.shi
+# . ./common.shi
+# . ${srcdir}/tests/common.shi
 echo "1..17"
 
 ${MAGICK} pnm:- null:   < ${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"

@@ -11,9 +11,7 @@
 #   under the License.
 #
 #   CMake script file to build ImageMagick
-# 
-
-project(MagickCore C)
+#
 
 set(MAGICKCORE_SRC
   MagickCore.h
@@ -240,7 +238,7 @@ set(MAGICKCORE_SRC
   utility.h
   utility-private.h
   version.c
-  version.h
+  # version.h
   version-private.h
   visual-effects.c
   visual-effects.h
@@ -420,6 +418,7 @@ set(MAGICKCORE_CODERS_SRCS
   ${CODERS_PATH}/dib.c
   ${CODERS_PATH}/dib.h
   ${CODERS_PATH}/djvu.h
+  ${CODERS_PATH}/dmr.h
   ${CODERS_PATH}/dng.c
   ${CODERS_PATH}/dng.h
   ${CODERS_PATH}/dot.c
@@ -651,10 +650,12 @@ endif()
 if(DJVU_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/djvu.c)
 endif()
+if(DMR_DELEGATE)
+  list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/dmr.c)
+endif()
 if(OPENEXR_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/exr.c)
-  # OpenEXR should export this dep but it isn't currently so we have to make sure this object uses c++
-  set_source_files_properties(${CODERS_PATH}/exr.c PROPERTIES LANGUAGE CXX)
+  set_source_files_properties(${CODERS_PATH}/exr.c PROPERTIES LINKER_LANGUAGE CXX)
 endif()
 if(FLIF_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/flif.c)
@@ -688,8 +689,10 @@ if(WEBP_DELEGATE)
 endif()
 if(WINGDI32_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/clipboard.c ${CODERS_PATH}/emf.c)
-  # Seems that emf.c uses namespaces so we need to compile as c++
-  set_source_files_properties(${CODERS_PATH}/emf.c PROPERTIES LANGUAGE CXX)
+  if(BUILD_MAGICKPP)
+    # Seems that emf.c uses namespaces so we need to compile as c++
+    set_source_files_properties(${CODERS_PATH}/emf.c PROPERTIES LANGUAGE CXX)
+  endif()
 endif()
 if(WMF_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/wmf.c)
@@ -698,31 +701,34 @@ if(X11_DELEGATE)
   list(APPEND MAGICKCORE_CODERS_DELEGATES_SRCS ${CODERS_PATH}/x.c ${CODERS_PATH}/xwd.c)
 endif()
 
-if(MAGICK_BUILD_STATIC)
-  add_library(${MAGICKCORE_BINARY_NAME} STATIC ${MAGICKCORE_SRC} ${MAGICKCORE_FILTERS_SRCS} ${MAGICKCORE_CODERS_SRCS} ${MAGICKCORE_CODERS_DELEGATES_SRCS} ${MAGICK_RESOURCE_FILE_PATH})
-else()
-  add_library(${MAGICKCORE_BINARY_NAME} SHARED ${MAGICKCORE_SRC} ${MAGICKCORE_FILTERS_SRCS} ${MAGICKCORE_CODERS_SRCS} ${MAGICKCORE_CODERS_DELEGATES_SRCS} ${MAGICK_RESOURCE_FILE_PATH})
-endif()
+add_library(MagickCore ${MAGICKCORE_SRC} ${MAGICKCORE_FILTERS_SRCS} ${MAGICKCORE_CODERS_SRCS} ${MAGICKCORE_CODERS_DELEGATES_SRCS} ${MAGICK_RESOURCE_FILE_PATH})
 
-set_target_properties(${MAGICKCORE_BINARY_NAME} PROPERTIES PUBLIC_HEADER "${MAGICKCORE_PUBLIC_HEADERS}")
-target_include_directories(${MAGICKCORE_BINARY_NAME} PUBLIC ${IMAGEMAGICK_BASE_PATH})
-target_link_libraries(${MAGICKCORE_BINARY_NAME} PUBLIC ${IMAGEMAGICK_DELEGATES_LIBRARIES})
-#TODO should we make a test to see if we need to link -lm ??
+set_target_properties(MagickCore PROPERTIES
+    OUTPUT_NAME "MagickCore-${MAGICK_BINARY_SUFFIX}"
+    PUBLIC_HEADER "${MAGICKCORE_PUBLIC_HEADERS}"
+)
+target_include_directories(MagickCore PUBLIC ${IMAGEMAGICK_BASE_PATH})
+target_link_libraries(MagickCore PUBLIC ${IMAGEMAGICK_DELEGATES_LIBRARIES})
 if(UNIX)
-  target_link_libraries(${MAGICKCORE_BINARY_NAME} PUBLIC -lm)
+  target_link_libraries(MagickCore PUBLIC m)
 endif()
-# Set the MAGICKCORE_SHAREARCH_BASEDIRNAME to "config", not sure if I should add it to the <config.h>
-target_compile_definitions(${MAGICKCORE_BINARY_NAME} PRIVATE ${MAGICK_BUILD_DEFINES} -D_MAGICKLIB_ -DMAGICKCORE_SHAREARCH_BASEDIRNAME=\"config\")
+target_compile_definitions(MagickCore PRIVATE _MAGICKLIB_)
 
-install(TARGETS ${MAGICKCORE_BINARY_NAME}
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  PUBLIC_HEADER DESTINATION ${IMAGEMAGICK_INC_DIR}/MagickCore
+install(TARGETS MagickCore
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PUBLIC_HEADER DESTINATION ${INCLUDE_PATH}/MagickCore
 )
 
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/magick-baseconfig.h
   ${CMAKE_CURRENT_BINARY_DIR}/version.h
-  DESTINATION ${IMAGEMAGICK_INC_DIR}/MagickCore
+  DESTINATION ${INCLUDE_PATH}/MagickCore
+)
+
+configure_file(MagickCore-config.in ${CMAKE_CURRENT_BINARY_DIR}/MagickCore-config @ONLY)
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/MagickCore-config DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
 )

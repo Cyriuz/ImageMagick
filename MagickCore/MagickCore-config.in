@@ -6,13 +6,14 @@
 
 prefix=@prefix@
 exec_prefix=@exec_prefix@
+export PKG_CONFIG_LIBDIR="${exec_prefix}/lib/pkgconfig"
 
 usage="\
 Usage: MagickCore-config [--cflags] [--cppflags] [--exec-prefix] [--ldflags] [--libs] [--prefix] [--version]"
 
 if test $# -eq 0; then
       echo "${usage}" 1>&2
-      echo "Example: gcc \`MagickCore-config --cflags --cppflags\` -o core core.c \`Magick-config --ldflags --libs\`" 1>&2
+      echo "Example: gcc \`MagickCore-config --cflags --cppflags\` -o core core.c \`MagickCore-config --ldflags --libs\`" 1>&2
       exit 1
 fi
 

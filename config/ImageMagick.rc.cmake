@@ -10,8 +10,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION @MagickLibVersionNumber@
- PRODUCTVERSION @MagickLibVersionNumber@
+ FILEVERSION "@MagickLibVersionNumber@"
+ PRODUCTVERSION "@MagickLibVersionNumber@"
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -30,11 +30,11 @@ BEGIN
             VALUE "FileDescription", "ImageMagick Studio library and utility programs\0"
             VALUE "OriginalFilename", "ImageMagick\0"
             VALUE "InternalName", "ImageMagick\0"
-            VALUE "FileVersion", @MagickLibVersionText@ "\0"
-            VALUE "ProductVersion", @MagickLibVersionText@ "\0"
+            VALUE "FileVersion", "@MagickLibVersionText@" "\0"
+            VALUE "ProductVersion", "@MagickLibVersionText@" "\0"
             VALUE "CompanyName", "ImageMagick Studio\0"
-            VALUE "LegalCopyright", @MagickCopyright@ "\0"
-            VALUE "Comments", @MagickVersion@ "\0"
+            VALUE "LegalCopyright", "@MagickCopyright@" "\0"
+            VALUE "Comments", "@MagickVersion@" "\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -49,16 +49,15 @@ END
 //
 /////////////////////////////////////////////////////////////////////////////
 
-// TODO generate the xml files
-//COLORS.XML           IMAGEMAGICK DISCARDABLE "..\\bin\\colors.xml"
-//CONFIGURE.XML        IMAGEMAGICK DISCARDABLE "..\\bin\\configure.xml"
-//DELEGATES.XML        IMAGEMAGICK DISCARDABLE "..\\bin\\delegates.xml"
-//ENGLISH.XML          IMAGEMAGICK DISCARDABLE "..\\bin\\english.xml"
-//LOCALE.XML           IMAGEMAGICK DISCARDABLE "..\\bin\\locale.xml"
-//LOG.XML              IMAGEMAGICK DISCARDABLE "..\\bin\\log.xml"
-//THRESHOLDS.XML       IMAGEMAGICK DISCARDABLE "..\\bin\\thresholds.xml"
-//TYPE.XML             IMAGEMAGICK DISCARDABLE "..\\bin\\type.xml"
-//TYPE-GHOSTSCRIPT.XML IMAGEMAGICK DISCARDABLE "..\\bin\\type-ghostscript.xml"
+COLORS.XML           IMAGEMAGICK DISCARDABLE "..\\bin\\colors.xml"
+CONFIGURE.XML        IMAGEMAGICK DISCARDABLE "..\\bin\\configure.xml"
+DELEGATES.XML        IMAGEMAGICK DISCARDABLE "..\\bin\\delegates.xml"
+ENGLISH.XML          IMAGEMAGICK DISCARDABLE "..\\bin\\english.xml"
+LOCALE.XML           IMAGEMAGICK DISCARDABLE "..\\bin\\locale.xml"
+LOG.XML              IMAGEMAGICK DISCARDABLE "..\\bin\\log.xml"
+THRESHOLDS.XML       IMAGEMAGICK DISCARDABLE "..\\bin\\thresholds.xml"
+TYPE.XML             IMAGEMAGICK DISCARDABLE "..\\bin\\type.xml"
+TYPE-GHOSTSCRIPT.XML IMAGEMAGICK DISCARDABLE "..\\bin\\type-ghostscript.xml"
 
 
 /////////////////////////////////////////////////////////////////////////////

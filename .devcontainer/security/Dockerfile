@@ -13,6 +13,7 @@ RUN git clone --depth 1 https://github.com/strukturag/libheif
 RUN git clone --depth 1 https://github.com/uclouvain/openjpeg
 RUN git clone --depth 1 https://github.com/webmproject/libwebp
 RUN git clone --depth 1 https://github.com/madler/zlib
+RUN git clone --depth 1 https://github.com/ebiggers/libdeflate
 RUN git clone --depth 1 https://github.com/libjpeg-turbo/libjpeg-turbo
 RUN git clone --depth 1 https://github.com/xz-mirror/xz
 RUN git clone --depth 1 https://github.com/libraw/libraw
@@ -23,7 +24,7 @@ RUN git clone --depth 1 https://gitlab.com/federicomenaquintero/bzip2.git
 RUN git clone --depth 1 --recursive https://github.com/libjxl/libjxl
 RUN git -c http.sslVerify=false clone https://www.cl.cam.ac.uk/~mgk25/git/jbigkit
 
-ADD Magick++/fuzz/build_dependencies.sh build_dependencies.sh
+ADD oss-fuzz/build_dependencies.sh build_dependencies.sh
 
 ENV SRC=/ImageMagick/dependencies
 ENV WORK=/ImageMagick

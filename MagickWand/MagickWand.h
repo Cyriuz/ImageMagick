@@ -22,6 +22,7 @@
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
+
 #if !defined(MAGICKWAND_CONFIG_H)
 # define MAGICKWAND_CONFIG_H
 # if !defined(vms)

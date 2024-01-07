@@ -503,7 +503,8 @@ if test "$enable_largefile" != no; then
     unknown)
         AC_MSG_CHECKING([for native large file support])
         AC_RUN_IFELSE([AC_LANG_PROGRAM([#include <unistd.h>
-          main () {
+          #include <stdlib.h>
+          int main () {
           exit(!(sizeof(off_t) == 8));
         }])],
         [ac_cv_sys_file_offset_bits=64; AC_DEFINE(_FILE_OFFSET_BITS,64)
@@ -511,6 +512,9 @@ if test "$enable_largefile" != no; then
         [AC_MSG_RESULT([no])])
         ;;
     *)
+        if test "$ac_cv_sys_file_offset_bits" = ''; then
+            ac_cv_sys_file_offset_bits=64;
+        fi
         LFS_CPPFLAGS="$LFS_CPPFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
         ;;
     esac
@@ -928,9 +932,6 @@ if test "$with_libstdc" != ''; then
     fi
 fi
 AC_SUBST([LIBSTDCLDFLAGS])
-
-# Does gcc required -traditional?
-AC_PROG_GCC_TRADITIONAL
 
 ########
 #
@@ -3242,9 +3243,9 @@ GVCDecodeDelegateDefault='dot'
 DVIDecodeDelegateDefault='dvips'
 EditorDelegateDefault='xterm'
 ConvertDelegateDefault=`echo magick | sed ${configure_transform_name}`
-DisplayDelegateDefault=`echo magick display | sed ${configure_transform_name}`
+DisplayDelegateDefault=`echo magick | sed ${configure_transform_name}`
 Fig2devDelegateDefault='fig2dev'
-MogrifyDelegateDefault=`echo magick mogrify | sed ${configure_transform_name}`
+MogrifyDelegateDefault=`echo magick | sed ${configure_transform_name}`
 HPGLDecodeDelegateDefault='hp2xx'
 HTMLDecodeDelegateDefault='html2ps'
 ILBMDecodeDelegateDefault='ilbmtoppm'

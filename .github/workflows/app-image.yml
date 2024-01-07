@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
     - main
+    paths:
+    - '.github/workflows/app-image.yml'
 
 permissions:
   contents: write
@@ -18,7 +20,7 @@ jobs:
     name: 'Create AppImage'
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:18.04
+      image: ubuntu:20.04
       options: --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined
 
     strategy:
@@ -27,27 +29,26 @@ jobs:
         include:
           - compiler: gcc
             cxx_compiler: g++
+            packages: gcc g++
           - compiler: clang
             cxx_compiler: clang++
+            packages: clang
 
     steps:
     - name: Install dependencies
       run: |
         set -e
-        apt-get update -y
-        apt-get install -y autoconf curl fuse git kmod libbz2-dev libdjvulibre-dev libfontconfig-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev liblcms-dev libopenexr-dev libopenjp2-7-dev libturbojpeg0-dev liblqr-dev libraqm-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev liblzma-dev software-properties-common wget
+        export DEBIAN_FRONTEND=noninteractive
+        apt update -y
+        apt install -y autoconf curl fuse git kmod libbz2-dev libdjvulibre-dev libfontconfig-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev liblcms-dev libopenexr-dev libopenjp2-7-dev libturbojpeg0-dev liblqr-dev libraqm-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev liblzma-dev make software-properties-common wget ${{ matrix.packages }}
         add-apt-repository ppa:git-core/ppa -y
-        apt-get install -y git
+        apt install -y git
         add-apt-repository ppa:strukturag/libheif -y
         add-apt-repository ppa:strukturag/libde265 -y
-        apt-get install libheif-dev -y
+        apt install libheif-dev -y
 
     - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Install ${{ matrix.compiler }}
-      if: matrix.compiler == 'clang'
-      run: apt-get install -y ${{ matrix.compiler }}
+      uses: actions/checkout@v4
 
     - name: Download AppImage
       run: |
@@ -90,7 +91,7 @@ jobs:
         find /appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
     - name: Upload ImageMagick AppImage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: AppImage-${{ matrix.compiler }}
         path: artifacts
@@ -104,7 +105,7 @@ jobs:
 
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: artifacts
 

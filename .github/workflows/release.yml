@@ -21,7 +21,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -37,7 +37,7 @@ jobs:
         mv ChangeLog.md artifacts/ChangeLog.md
 
     - name: Upload ChangeLog.md
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ChangeLog
         path: artifacts
@@ -73,7 +73,7 @@ jobs:
             hdri_flag: '-HDRI'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ImageMagick/ImageMagick-Windows
         path: ImageMagick-Windows
@@ -86,7 +86,7 @@ jobs:
         CloneRepositories.cmd https://github.com/ImageMagick shallow
 
     - name: Download ChangeLog.md
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ChangeLog
         path: ImageMagick-Windows\ImageMagick
@@ -184,9 +184,19 @@ jobs:
         timestamp-digest: SHA256
         timeout: 600
 
-    - uses: actions/upload-artifact@v3
+    - name: Get version
+      id: version
+      shell: pwsh
+      run: |
+        $version = (cat "ImageMagick-Windows\VisualMagick\installer\inc\version.isx" | Select-String "MagickPackageFullVersionText") | Out-String
+        $version = ($version | Select-String '".*"' -AllMatches |  Select -Expand Matches | Select -Expand Value | Out-String)
+        $version = $version -Replace "`n|`r|""",""
+        $version = $version -Replace " ","-"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - uses: actions/upload-artifact@v4
       with:
-        name: installers
+        name: 'ImageMagick-${{steps.version.outputs.version}}-installer-${{matrix.quantum}}${{matrix.hdri_flag}}-${{matrix.type}}-${{matrix.platform}}'
         path: 'ImageMagick-Windows\VisualMagick\installer\output'
 
   release_windows_source:
@@ -196,7 +206,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ImageMagick/ImageMagick-Windows
         path: ImageMagick-Windows
@@ -209,7 +219,7 @@ jobs:
         CloneRepositories.cmd https://github.com/ImageMagick source
 
     - name: Download ChangeLog.md
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ChangeLog
         path: ImageMagick-Windows\ImageMagick
@@ -220,7 +230,7 @@ jobs:
         cd ImageMagick-Windows
         7z a ImageMagick-Windows.7z .\source\*
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: ImageMagick-Windows
         path: 'ImageMagick-Windows\ImageMagick-Windows.7z'
@@ -251,7 +261,7 @@ jobs:
             hdri_flag: '-HDRI'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ImageMagick/ImageMagick-Windows
         path: ImageMagick-Windows
@@ -264,7 +274,7 @@ jobs:
         CloneRepositories.cmd https://github.com/ImageMagick shallow
 
     - name: Download ChangeLog.md
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ChangeLog
         path: ImageMagick-Windows\ImageMagick
@@ -339,7 +349,7 @@ jobs:
         $version = $version -Replace " ","-"
         echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: 'ImageMagick-${{steps.package.outputs.version}}-portable-${{matrix.quantum}}${{matrix.hdri_flag}}-${{matrix.platform}}'
         path: portable

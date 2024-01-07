@@ -14,8 +14,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-. ./common.shi
-. ${srcdir}/tests/common.shi
+# . ./common.shi
+# . ${srcdir}/tests/common.shi
 
 depth=`eval ${MAGICK} xc:none -format '%[fx:QuantumRange]' info:-`
 if [ "X$depth" = "X255" ]; then
