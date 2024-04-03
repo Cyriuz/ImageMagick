@@ -324,7 +324,11 @@ endif()
 
 magick_find_delegate(DELEGATE JBIG_DELEGATE NAME JBIG DEFAULT TRUE)
 magick_find_delegate(DELEGATE JPEG_DELEGATE NAME JPEG DEFAULT TRUE)
-magick_find_delegate(DELEGATE LIBOPENJP2_DELEGATE NAME OpenJPEG DEFAULT TRUE)
+magick_find_delegate(DELEGATE LIBOPENJP2_DELEGATE NAME OpenJPEG DEFAULT TRUE TARGETS openjp2)
+# OpenJPEG has an ancient CMake that wasn't fixed until 2.5
+if (OPENJPEG_INCLUDE_DIRS)
+  include_directories(${OPENJPEG_INCLUDE_DIRS})
+endif()
 magick_find_delegate(DELEGATE OPENEXR_DELEGATE NAME OpenEXR DEFAULT TRUE)
 magick_find_delegate(DELEGATE PNG_DELEGATE NAME PNG DEFAULT TRUE)
 magick_find_delegate(DELEGATE RSVG_DELEGATE NAME Rsvg DEFAULT TRUE)
